@@ -48,7 +48,7 @@ def calculate_annualized_volatility(df):
     annualized_volatility = weekly_volatility * np.sqrt(52)
     return annualized_volatility
 
-def calculate_sharpe_ratio(annualized_return, annualized_volatility, risk_free_rate=0.01):
+def calculate_sharpe_ratio(annualized_return, annualized_volatility, risk_free_rate=0.015):
     """
     Calculates the Sharpe ratio of an ETF.
 
@@ -69,7 +69,7 @@ def calculate_tangency_portfolio(returns):
     """
     cov_matrix = returns.cov() * 52
     expected_returns = (returns.mean() + 1)**52 - 1
-    risk_free_rate = 0.01
+    risk_free_rate = 0.015
 
     def objective(weights):
         return -(expected_returns.dot(weights) - risk_free_rate) / np.sqrt(weights.T.dot(cov_matrix).dot(weights))
@@ -94,7 +94,7 @@ def plot_frontier(returns, tangency_portfolio):
     """
     expected_returns = (returns.mean() + 1)**52 - 1
     cov_matrix = returns.cov() * 52
-    risk_free_rate = 0.01
+    risk_free_rate = 0.015
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -132,7 +132,7 @@ def optimize_for_target_volatility(tangency_portfolio, target_volatility=0.15):
     Calculates the optimal weights for a target volatility and the implied risk-aversion coefficient.
     """
     tangency_weights, tangency_mean, _, tangency_std, _ = tangency_portfolio
-    risk_free_rate = 0.01
+    risk_free_rate = 0.015
 
     # Calculate the weight in the tangency portfolio
     weight_in_tangency = target_volatility / tangency_std
